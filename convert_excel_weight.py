@@ -3,6 +3,7 @@ import pandas as pd
 import argparse
 import os
 import time
+import datetime
 
 class ExcelProcessing(object):
     def __init__(self, excel_file):
@@ -135,7 +136,8 @@ def main(args):
     export_path = prompt_filepath('export')
     data_name = args.file_name
     sheet_name = args.sheet_name
-    date_value = args.date_value
+
+    date_value = datetime.date.today() # Always take latest date
 
 
     # Load data
@@ -174,9 +176,8 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Tool to convert weight data to proper format')
-    parser.add_argument('file_name', help='File name <required>', default='.')
+    parser.add_argument('file_name', help='File name <required>', default='.xlsx')
     parser.add_argument('sheet_name', help='sheet name to extract', nargs='?', default='All')
-    parser.add_argument('date_value', help='yyyy-mm-dd date value', nargs='?', default='2022-05-21')
     
     args, unknown = parser.parse_known_args()
 

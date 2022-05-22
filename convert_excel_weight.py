@@ -65,7 +65,7 @@ class WeightConverter():
         '''
         list_of_values = list_of_df[0]
         for i in range(1,len(list_of_df)):
-            list_of_values = list_of_values.append(list_of_df[i])
+            list_of_values = pd.concat([list_of_values, list_of_df[i]], axis=0) # Replace append
         list_of_values = list_of_values.reset_index().drop('index', axis=1)
         return list_of_values
 
@@ -106,6 +106,17 @@ class WeightConverter():
                     'Weight'] = pd.Series(subset_tmp_df['Weight']).rolling(7, min_periods=1).mean()
         
         return subset_tmp_df
+    
+    def create_averages(self, df):
+        tmp_df = df.copy()
+        tmp_df['Weight'] = tmp_df['Weight'].astype(np.float32)
+        tmp_df['fillWeight'] = tmp_df['Weight']
+        tmp_df['fillWeight'] = tmp_df['fillWeight'].interpolate()
+        tmp_df['MA'] = tmp_df['fillWeight'].rolling(window=7).mean()
+        indexer = str(datetime.date.today())
+        df_indexer = tmp_df.index[tmp_df['Date']==indexer].values[0] + 1 
+        df_subset = tmp_df[:df_indexer]
+        return df_subset
                                 
 
 def prompt_filepath(source_data, default=''):
@@ -162,12 +173,13 @@ def main(args):
     # Merge weights and dates 
     export_df = weight_convert.export_file(weight_convert_3, date_convert_3)
 
+    averaged_export = weight_convert.create_averages(export_df)
     # Fill na with rolling mean if desired, else NA
     #export_df_2 = weight_convert.rolling_mean_fill_na(export_df, date_value)
 
     export_fname = f'formatted_weight_{date_value}.csv'
     full_path = os.path.join(export_path, export_fname)
-    export_df.to_csv(full_path, index=False)
+    averaged_export.to_csv(full_path, index=False)
     #export_df_2.to_csv(full_path, index=False) # If NA's want to be filled
     end = time.time()
     print(f"Runtime: {end-start} s")

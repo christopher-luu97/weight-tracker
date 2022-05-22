@@ -82,7 +82,8 @@ def test_export_file():
 def test_create_averages():
     '''
     Check NA are removed from calculated columns
+    df['MA'] starts at index 7 due to using rolling mean which omits first 7
     '''
     
     assert averaged_export['fillWeight'].isnull().values.any()==False
-    assert averaged_export['MA'].isnull().values.any()==False
+    assert averaged_export['MA'][7:].isnull().values.any()==False

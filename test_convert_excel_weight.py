@@ -17,6 +17,7 @@ date_convert = weight_convert.dates_only(excel_step_2)
 date_convert_2 = weight_convert.individual_df(date_convert)
 date_convert_3 = weight_convert.long_list_of_values(date_convert_2)
 export_df = weight_convert.export_file(weight_convert_3, date_convert_3)
+averaged_export = weight_convert.create_averages(export_df)
 
 def test_drop_columns():
     '''
@@ -76,3 +77,11 @@ def test_export_file():
     np.testing.assert_array_equal(export_df.columns, cols)
     assert isinstance(export_df['Date'][0], pd._libs.tslibs.timestamps.Timestamp)
     assert export_df.shape[1] == 2
+
+def test_create_averages():
+    '''
+    Check NA are removed from calculated columns
+    '''
+    
+    assert averaged_export['fillWeight'].isnull().values.any()==False
+    assert averaged_export['MA'].isnull().values.any()==False

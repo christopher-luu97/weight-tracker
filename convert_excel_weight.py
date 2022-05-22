@@ -13,8 +13,7 @@ class ExcelProcessing(object):
         '''
         Drop columns that aren't useful
         '''
-        tmp_df = self.df.drop(columns=["Weight Tracker","Start Date", "Unnamed: 10",
-                      'Unnamed: 11'], axis = 1)
+        tmp_df = self.df.drop(columns=["Weight Tracker","Start Date"], axis = 1)
         tmp_df = tmp_df[3:] #Formatting of the excel sheet is bad. Start from col3
         return tmp_df
 

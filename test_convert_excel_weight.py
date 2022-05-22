@@ -18,7 +18,7 @@ date_convert = weight_convert.dates_only(excel_step_2)
 date_convert_2 = weight_convert.individual_df(date_convert)
 date_convert_3 = weight_convert.long_list_of_values(date_convert_2)
 export_df = weight_convert.export_file(weight_convert_3, date_convert_3)
-averaged_export = weight_convert.create_averages(export_df)
+averaged_export = weight_convert.create_averages(export_df, date_value)
 
 def test_drop_columns():
     '''

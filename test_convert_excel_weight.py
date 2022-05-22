@@ -1,10 +1,11 @@
 import pytest
 from convert_excel_weight import * 
-
+import datetime
 # fixtures here
 
 # Load in the test data
 df = pd.read_excel('./input_data/Weight_tracker_2022.xlsx', sheet_name='All', engine='openpyxl')
+date_value = datetime.date.today() # Always take latest date
 
 excel_date = ExcelProcessing(df)
 excel_step_1 = excel_date.drop_columns()

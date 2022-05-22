@@ -15,3 +15,6 @@ Ideal end state:
 Create a dashboard for weight data that can be updated via web-browser interface.
 Connects straight to PostgreSQL db
     - Potential options for deployment: Streamlit + heroku
+
+
+Testing: Need to get requirements.txt, setup with GitHub actions to automate testing on conversion pipeline.

@@ -1,1 +1,8 @@
+# Remove config
 config.py
+
+# excel data
+*.xlsx
+
+# csv data
+*.csv

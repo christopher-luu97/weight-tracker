@@ -32,4 +32,4 @@ jobs:
       #     pipenv install --deploy --dev
       - name: Run test suite
         run: |
-          pytest --exitfirst --verbose --failed-first \--cov=. --cov-report html
+          python -m pytest --exitfirst --verbose --failed-first \--cov=. --cov-report html

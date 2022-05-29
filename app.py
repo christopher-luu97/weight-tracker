@@ -21,7 +21,7 @@ import convert_excel_weight as cew
 ws = Tk()
 ws.title('Data processor')
 ws.geometry('400x200')
-ws.iconbitmap('pepe-2.ico')
+ws.iconbitmap('icons/pepe-2.ico')
 
 df = pd.DataFrame()
 

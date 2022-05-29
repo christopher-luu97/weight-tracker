@@ -1,4 +1,6 @@
 # GUI for my script to process weight data
+# Ideally we create a class for load_data and process_data
+# That way we can handle df within the class rather than calling global
 
 from tkinter import *
 from tkinter.ttk import *

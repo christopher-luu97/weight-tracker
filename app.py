@@ -25,15 +25,15 @@ class Application(tk.Tk):
         super().__init__()
         # Set window attributes
         self.title('Data processor')
-        self.geometry('500x500')
+        self.geometry('900x500')
         self.iconbitmap('./icons/pepe-2.ico')
         self.main_frame = tk.Frame(self)
         self.main_frame.pack(fill="both", expand="true")
         self.pack_propagate(False)
 
-        # Set frames for inputs and outputs
-        frame_1 = tk.LabelFrame(self, text="Data")
-        frame_1.place(height=250, width=500)
+        # Set frames for inputs
+        frame_1 = tk.LabelFrame(self, text="Input data")
+        frame_1.place(height=250, width=400)
 
         file_frame = tk.LabelFrame(self, text="Load file")
         file_frame.place(height=100, width=400, rely=0.65, relx=0)
@@ -52,6 +52,29 @@ class Application(tk.Tk):
         tree_scroll_y.pack(side="right", fill="y")
 
         self.df = pd.DataFrame()
+
+        # Set frames for outputs
+        # Set frames for inputs
+        frame_2 = tk.LabelFrame(self, text="Output data")
+        frame_2.place(x=500,height=250, width=400)
+
+        file_frame_2 = tk.LabelFrame(self, text="Saved file")
+        file_frame_2.place(x=500, y=325, height=100, width=400)
+        
+        self.label_file_2 = ttk.Label(file_frame_2, text="No File Saved")
+        self.label_file_2.place(rely=0, relx=0)
+
+        # Set TreeView Widget
+        self.tv2 = ttk.Treeview(frame_2)
+        self.tv2.place(relheight=1, relwidth=1)
+
+        tree_scroll_y_2 = tk.Scrollbar(frame_2, orient="vertical", command=self.tv2.yview)
+        tree_scroll_x_2 = tk.Scrollbar(frame_2, orient="horizontal", command=self.tv2.xview)
+        self.tv2.configure(xscrollcommand=tree_scroll_x_2.set, yscrollcommand=tree_scroll_y_2.set)
+        tree_scroll_x_2.pack(side="bottom", fill="x")
+        tree_scroll_y_2.pack(side="right", fill="y")
+
+        self.df_output = pd.DataFrame()
 
     def load_data(self):
         # get args
@@ -112,27 +135,41 @@ class Application(tk.Tk):
         # Merge weights and dates 
         export_df = weight_convert.export_file(weight_convert_3, date_convert_3)
 
-        averaged_export = weight_convert.create_averages(export_df, date_value)
+        self.df_output = weight_convert.create_averages(export_df, date_value)
         # Fill na with rolling mean if desired, else NA
         #export_df_2 = weight_convert.rolling_mean_fill_na(export_df, date_value)
 
         try:
             # with block automatically closes file
             with filedialog.asksaveasfile(mode='w', defaultextension=".csv") as file:
-                averaged_export.to_csv(file.name)
+                self.df_output.to_csv(file.name)
         except AttributeError:
             # if user cancels save, filedialog returns None rather than a file object, and the 'with' will raise an error
             print("The user cancelled save")
+        
+        self.label_file_2["text"] = file.name
+        file_path_2 = self.label_file_2["text"]
+        self.clear_data()
+        self.tv2["column"] = list(self.df_output.columns)
+        self.tv2["show"] = "headings"
+
+        # Set column names
+        for column in self.tv2["columns"]:
+            self.tv2.heading(column, text=column)
+        
+        df_rows_2 = self.df_output.to_numpy().tolist()
+        for row in df_rows_2:
+            self.tv2.insert("", "end", values=row)
 
 def main():
     frame = Application()
     
     load_data_btn = Button(frame, text='load data', command=frame.load_data)
-    load_data_btn.place(rely=0.65, relx= 0.5)
+    load_data_btn.place(x=270, y = 325)
 
     # Process and export
     process_data_btn = Button(frame, text='process data', command=frame.process_data)
-    process_data_btn.place(rely=0.65, relx=0.3)
+    process_data_btn.place(x=780, y=325)
 
     frame.mainloop()
 

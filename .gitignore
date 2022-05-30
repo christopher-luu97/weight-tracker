@@ -5,4 +5,4 @@ config.py
 *.xlsx
 
 # csv data
-#*.csv
+*.csv

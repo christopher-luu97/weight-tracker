@@ -19,7 +19,7 @@ from tkinter import ttk
 import convert_excel_weight as cew
 
 
-
+## Data viewer follows: https://gist.github.com/RamonWill/0686bd8c793e2e755761a8f20a42c762
 class Application(tk.Tk):
     def __init__(self):
         super().__init__()

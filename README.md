@@ -10,11 +10,13 @@ Second utility (WIP): Add average column and generate plots
 1. Average column created
 2. Plots (WIP)
 
-
 Third (WIP): Use Python to Read and Write to PostgreSQL instead of reading from updated Excel sheet and creating a newly formatted output file every day.
 
 Fourth (Complete): Create a python application with a gui for the first utility.
     - This was performed to gather an understanding of GUI development and compiling a simple Python application to an executable.
+
+Fifth (WIP): Create a dashboard to display plots
+Sixth (WIP): Add functionality to update plots in dashboard via user input
 
 Ideal end state:
 Create a dashboard for weight data that can be updated via web-browser interface.

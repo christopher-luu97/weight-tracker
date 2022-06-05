@@ -142,7 +142,7 @@ class Application(tk.Tk):
         try:
             # with block automatically closes file
             with filedialog.asksaveasfile(mode='w', defaultextension=".csv") as file:
-                self.df_output.to_csv(file.name)
+                self.df_output.to_csv(file.name, index=False)
         except AttributeError:
             # if user cancels save, filedialog returns None rather than a file object, and the 'with' will raise an error
             print("The user cancelled save")

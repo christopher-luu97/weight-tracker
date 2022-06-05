@@ -24,4 +24,6 @@ Connects straight to PostgreSQL db
     - Potential options for deployment: Streamlit + heroku
 
 
-Testing: Need to get requirements.txt, setup with GitHub actions to automate testing on conversion pipeline.
+Testing: 
+1. Need to get requirements.txt, setup with GitHub actions to automate testing on conversion pipeline.
+    - COMPLETED

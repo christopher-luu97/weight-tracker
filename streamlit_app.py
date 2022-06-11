@@ -78,10 +78,10 @@ fig_daily_weight = px.line(
     #markers=True
 )
 fig_daily_weight.update_layout(xaxis_title="Date", yaxis_title="Weight (kg)")
-st.plotly_chart(fig_daily_weight)
+st.plotly_chart(fig_daily_weight, use_container_width=True)
 
 # Display data at the end
-main_table = st.dataframe(df[df['Date']<=slider])
+main_table = st.dataframe(df[df['Date']<=slider], width=1000)
 
 
 # ---- HIDE STREAMLIT STYLE ----

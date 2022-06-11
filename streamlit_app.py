@@ -34,4 +34,33 @@ st.sidebar.table(pd.DataFrame([[start_date, slider, end_date]],
             columns = ['start', 'selected', 'end'],
             index=['Date']))
 
+# ---- MAINPAGE ----
+st.title(":bar_chart: Daily Weight Dashboard")
+st.markdown("##")
+
+# Show top metrics
+# Todays Date
+today = end_date
+# Today Weights
+today_weight = data.loc[len(data)-1, "Weight"]
+# Average up until today
+average_today_weight = data.loc[len(data)-1, "MA"]
+
+left_col, mid_col, right_col = st.columns(3)
+with left_col:
+    st.subheader("Todays Date:")
+    st.subheader(f"{today}")
+
+with mid_col:
+    st.subheader("Todays Morning Weight:")
+    st.subheader(f"{today_weight}")
+
+with right_col:
+    st.subheader("7 Day Average Weight:")
+    st.subheader(f"{average_today_weight}")
+
+st.markdown("---")
+
 main_table = st.dataframe(data[data['Date']<=slider])
+
+# Building the charts

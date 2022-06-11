@@ -14,7 +14,8 @@ with open('style.css') as f:
 # Data
 data = pd.read_csv("./output_data/test.csv")
 date = data.iloc[:, 1:]
-main_table = st.dataframe(data)
+data['Date'] = pd.to_datetime(data['Date'], errors='coerce')
+data['Date'] = data['Date'].dt.date
 
 # Sidebar for filters
 st.sidebar.header("Please Filter Here:")
@@ -23,7 +24,8 @@ st.sidebar.header("Please Filter Here:")
 # https://discuss.streamlit.io/t/datetime-slider/163/12
 cols1, _ = st.sidebar.columns((10,2))
 format = 'MMM DD, YYYY'
-start_date = datetime.datetime.strptime(data['Date'][0],"%Y-%M-%d").date()
+#start_date = datetime.datetime.strptime(data['Date'][0],"%Y-%M-%d").date()
+start_date = data['Date'][0]
 end_date = datetime.date.today()
 max_dates = end_date - start_date
 slider = cols1.slider('Select date', min_value = start_date, value = end_date, 
@@ -32,4 +34,4 @@ st.sidebar.table(pd.DataFrame([[start_date, slider, end_date]],
             columns = ['start', 'selected', 'end'],
             index=['Date']))
 
-data = data[data['Date']<=slider]
+main_table = st.dataframe(data[data['Date']<=slider])
